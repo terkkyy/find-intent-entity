@@ -1,0 +1,5 @@
+env/lib/python3.11/site-packages/torch/lib/libtorch_cpu.dylib filter=lfs diff=lfs merge=lfs -text
+model/model_Intent/model.safetensors filter=lfs diff=lfs merge=lfs -text
+dylib[[:space:]] filter=lfs diff=lfs merge=lfs -text
+*.dylib filter=lfs diff=lfs merge=lfs -text
+*.safetensors filter=lfs diff=lfs merge=lfs -text

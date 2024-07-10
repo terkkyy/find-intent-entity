@@ -1,0 +1,2 @@
+name: seq_sy_ch_conv_concat
+params: embc:32|embs:16|conv:64|l1:32|do:0.0

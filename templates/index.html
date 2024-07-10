@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai Language Model - Intent Classification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function togglePatterns() {
+            var table = document.getElementById('patterns-table');
+            var button = document.getElementById('toggle-button');
+            if (table.style.display === 'none') {
+                table.style.display = 'table';
+                button.textContent = 'Hide Patterns';
+            } else {
+                table.style.display = 'none';
+                button.textContent = 'Show Patterns';
+            }
+        }
+
+        function findEntity() {
+            var replacedText = document.getElementById('replaced_text').textContent.trim();
+            
+            fetch('/find_entity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ replaced_text: replacedText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('NER Output:', data.conll2002_output);
+                document.getElementById('ner-output').textContent = data.conll2002_output;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ต้นแบบโมเดล Intent & Entity</h1>
+        </div>
+        <div class="content">
+            <div class="left-column">
+                <form class="question-form" action="/" method="post">
+                    <label for="question">Select a question:</label>
+                    <select name="question" id="question">
+                        {% for question in questions %}
+                            <option value="{{ question }}">{{ question }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="user_question">Or enter your question:</label>
+                    <textarea name="user_question" id="user_question" rows="4"></textarea>
+                    <button type="submit">Predict Intent</button>
+                </form>
+                {% if selected_question %}
+                    <div class="result">
+                        <h2>Question:</h2>
+                        <p>{{ selected_question }}</p>
+                    </div>
+                {% endif %}
+                {% if predicted_intent %}
+                    <div class="result predicted-intent">
+                        <h2>Predicted Intent:</h2>
+                        <p>{{ predicted_intent }}</p>
+                    </div>
+                {% endif %}
+                    <div class="result predicted-intent">
+                        <p><a href="https://colab.research.google.com/drive/1vvMyEbNg8WHMJx4m2LogECqicaPUn4Ls?usp=sharing" target="_blank">Link to Colab Intent Model</a></p>
+                    </div>
+
+            </div>
+            <div class="right-column">
+                <div class="result">
+                    {% if replaced_text %}
+                        <h2>Replaced Text:</h2>
+                        <p id="replaced_text">{{ replaced_text }}</p>
+                    {% endif %}
+                </div>
+                <div class="result">
+                    <h2>Patterns</h2>
+                    <button id="toggle-button" onclick="togglePatterns()">Show Patterns</button>
+                    <table class="patterns-table" id="patterns-table" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Pattern</th>
+                                <th>Keywords</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pattern, keywords in patterns.items() %}
+                                <tr>
+                                    <td>{{ pattern }}</td>
+                                    <td>{{ keywords }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="result">
+                    <h2>Named Entity Recognition (NER) Output:</h2>
+                    <pre id="ner-output">No NER output available.</pre>
+                    <button id="toggle-button" onclick="findEntity()">Find Entity</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+#!/Users/terkkyy/web_cpf/env/bin/python3.11
+
+"""AttaCut: Fast and Reasonably Accurate Word Tokenizer for Thai
+
+Usage:
+  attacut-cli <src> [--dest=<dest>] [--model=<model>]
+  attacut-cli [-v | --version]
+  attacut-cli [-h | --help]
+
+Arguments:
+  <src>             Path to input text file to be tokenized
+
+Options:
+  -h --help         Show this screen.
+  --model=<model>   Model to be used [default: attacut-sc].
+  --dest=<dest>     If not specified, it'll be <src>-tokenized-by-<model>.txt
+  -v --version      Show version
+
+"""
+
+import os
+
+import torch
+from tqdm import tqdm
+
+from attacut import Tokenizer, __version__, preprocessing, utils
+from docopt import docopt
+
+SEP = "|"
+
+
+def get_argument(dict, name, default):
+    v = dict.get(name)
+    return v if v is not None else default
+
+
+if __name__ == "__main__":
+    arguments = docopt(__doc__, version=f"AttaCut: version {__version__}")
+
+    src = arguments["<src>"]
+    model = arguments["--model"]
+
+    # for a custom model, use the last dir's name.
+    model_name = model.split("/")[-1]
+
+    dest = get_argument(
+        arguments,
+        "--dest",
+        utils.add_suffix_to_file_path(
+            src,
+            f"tokenized-by-{model_name}"
+        )
+    )
+
+    print(f"Tokenizing {src}")
+    print(f"Using {src}")
+    print(f"Output: {dest}")
+
+    tokenizer = Tokenizer(model)
+    total_lines = utils.wc_l(src)
+
+    with torch.no_grad(), \
+        open(src, "r") as fin, \
+        open(dest, "w") as fout:
+        # todo: dataloader generator
+        # todo: tokenize by batch and write results
+        for line in tqdm(fin, total=total_lines):
+
+            line = preprocessing.TRAILING_SPACE_RX.sub("", line)
+
+            if not line:
+                fout.write("\n")
+                continue
+
+            words = tokenizer.tokenize(line)
+            tokenized_line = SEP.join(words)
+
+            fout.write(f"{tokenized_line}\n")

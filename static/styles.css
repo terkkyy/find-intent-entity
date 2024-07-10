@@ -1,0 +1,141 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f6f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 20px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.left-column, .right-column {
+    flex: 1;
+    padding: 20px;
+}
+
+.left-column {
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.question-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.question-form select,
+.question-form button,
+.question-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.question-form button {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.question-form button:hover {
+    background-color: #27ae60;
+}
+
+.result {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    flex: 1;
+}
+
+.result h2 {
+    margin-top: 0;
+}
+
+.result p {
+    margin: 10px 0;
+}
+
+.patterns-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.patterns-table th, .patterns-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.patterns-table th {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.patterns-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.patterns-table tr:hover {
+    background-color: #ddd;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-container {
+    margin-bottom: 20px;
+}
+
+button#toggle-button {
+    margin-top: 10px;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button#toggle-button:hover {
+    background-color: #27ae60;
+}
+
+.predicted-intent {
+    margin-top: auto;
+}
