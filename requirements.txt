@@ -1,0 +1,8 @@
+Flask
+transformers
+torch
+scikit-learn
+joblib
+easynertag
+pythainlp
+gunicorn
