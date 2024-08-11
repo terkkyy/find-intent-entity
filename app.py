@@ -9,9 +9,9 @@ from pythainlp.tokenize import word_tokenize
 app = Flask(__name__)
 
 # Load model and tokenizer
-model_path = '/Users/terkkyy/web_cpf/model/model_Intent'
-tokenizer_path = '/Users/terkkyy/web_cpf/model/model_Intent'
-label_encoder_path = '/Users/terkkyy/web_cpf/model/label_encoder.pkl'
+model_path = './model/model_Intent'
+tokenizer_path = './model/model_Intent'
+label_encoder_path = './model/label_encoder.pkl'
 
 model = CamembertForSequenceClassification.from_pretrained(model_path)
 tokenizer = CamembertTokenizer.from_pretrained(tokenizer_path)
